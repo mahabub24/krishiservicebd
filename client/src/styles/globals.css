@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-green: #22c55e;
+  --dark-green: #16a34a;
+  --light-green: #86efac;
+  --gold: #fbbf24;
+  --dark-gold: #f59e0b;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+}
+
+.font-bengali {
+  font-family: 'Noto Sans Bengali', sans-serif;
+}
+
+.btn-primary {
+  @apply bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+}
+
+.btn-outline {
+  @apply border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200;
+}
+
+.input-field {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-text {
+  color: var(--primary-green);
+  font-weight: 700;
+}
+
+.category-card {
+  @apply bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-all duration-200 cursor-pointer border-2 border-transparent hover:border-green-500;
+}
+
+.product-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-200;
+}
+
+.product-image {
+  @apply w-full h-48 object-cover;
+}
+
+.product-info {
+  @apply p-4;
+}
+
+.product-title {
+  @apply font-semibold text-lg text-gray-800 mb-2;
+}
+
+.product-price {
+  @apply text-green-600 font-bold text-xl mb-3;
+}
+
+.loading-spinner {
+  @apply animate-spin rounded-full h-8 w-8 border-b-2 border-green-600;
+}
+
+.banner-slide {
+  @apply relative h-96 bg-cover bg-center rounded-lg overflow-hidden;
+}
+
+.banner-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-8;
+}
+
+.banner-content {
+  @apply text-white;
+}
+
+.banner-title {
+  @apply text-3xl font-bold mb-2;
+}
+
+.banner-subtitle {
+  @apply text-lg opacity-90;
+}
+
+.admin-sidebar {
+  @apply w-64 bg-gray-800 text-white min-h-screen p-4;
+}
+
+.admin-main {
+  @apply flex-1 p-8 bg-gray-50;
+}
+
+.admin-card {
+  @apply bg-white rounded-lg shadow-md p-6 mb-6;
+}
+
+.admin-table {
+  @apply w-full bg-white rounded-lg shadow-md overflow-hidden;
+}
+
+.admin-table th {
+  @apply bg-gray-100 px-4 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider;
+}
+
+.admin-table td {
+  @apply px-4 py-4 text-sm text-gray-900 border-t border-gray-200;
+}
+
+.status-badge {
+  @apply px-2 py-1 text-xs font-medium rounded-full;
+}
+
+.status-pending {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.status-confirmed {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.status-processing {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.status-shipped {
+  @apply bg-indigo-100 text-indigo-800;
+}
+
+.status-delivered {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-cancelled {
+  @apply bg-red-100 text-red-800;
+}
+
+@media (max-width: 768px) {
+  .banner-slide {
+    @apply h-64;
+  }
+  
+  .banner-title {
+    @apply text-xl;
+  }
+  
+  .banner-subtitle {
+    @apply text-sm;
+  }
+}

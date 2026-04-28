@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "krishiservicebd",
   "builds": [
     {
       "src": "server/index.js",
@@ -21,10 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/$1"
+      "dest": "/client/build/index.html"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }

@@ -1,4 +1,3 @@
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
@@ -12,7 +11,6 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       >
         মূল কন্টেন্টে যান
       </a>
-      <AnnouncementBar />
       <Header />
       <main id="main" className="flex-1">
         {children}

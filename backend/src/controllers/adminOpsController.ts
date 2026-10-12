@@ -17,7 +17,8 @@ export const dashboard = asyncHandler(async (_req: Request, res: Response) => {
   const counted = { status: { notIn: ['CANCELLED', 'RETURNED'] as ('CANCELLED' | 'RETURNED')[] } };
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
-  const [totalOrders, pendingOrders, completedOrders, totalCustomers, lowStock, recentOrders, sales, last30] = await Promise.all([
+  const [totalProducts, totalOrders, pendingOrders, completedOrders, totalCustomers, lowStock, recentOrders, sales, last30] = await Promise.all([
+    prisma.product.count(),
     prisma.order.count(),
     prisma.order.count({ where: { status: 'PENDING' } }),
     prisma.order.count({ where: { status: 'DELIVERED' } }),
@@ -32,6 +33,7 @@ export const dashboard = asyncHandler(async (_req: Request, res: Response) => {
   ]);
   ok(res, {
     totalSales: sales._sum.totalAmount ?? 0,
+    totalProducts,
     totalOrders, pendingOrders, completedOrders, totalCustomers,
     lowStockThreshold: threshold,
     lowStock,

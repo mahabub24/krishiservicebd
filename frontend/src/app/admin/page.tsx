@@ -11,6 +11,8 @@ import {
   CheckCircle,
   Users,
   AlertTriangle,
+  Package,
+  ArrowRight,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -67,35 +69,97 @@ export default function AdminDashboardPage() {
   }
 
   const statCards = [
-    { title: 'মোট বিক্রয়', value: formatTaka(stats.totalSales), icon: DollarSign, color: 'text-green-600 bg-green-50' },
-    { title: 'মোট অর্ডার', value: toBn(stats.totalOrders), icon: ShoppingBag, color: 'text-blue-600 bg-blue-50' },
-    { title: 'অপেক্ষমাণ অর্ডার', value: toBn(stats.pendingOrders), icon: Clock, color: 'text-amber-600 bg-amber-50' },
-    { title: 'সম্পন্ন অর্ডার', value: toBn(stats.completedOrders), icon: CheckCircle, color: 'text-emerald-600 bg-emerald-50' },
-    { title: 'মোট গ্রাহক', value: toBn(stats.totalCustomers), icon: Users, color: 'text-indigo-600 bg-indigo-50' },
-    { title: 'কম স্টকের পণ্য', value: toBn(stats.lowStock?.length || 0), icon: AlertTriangle, color: 'text-red-600 bg-red-50' },
+    {
+      title: 'মোট পণ্য',
+      value: `${toBn(stats.totalProducts ?? 0)} টি`,
+      icon: Package,
+      color: 'text-purple-600 bg-purple-50',
+      href: '/admin/products',
+      desc: 'পণ্য ক্যাটালগ ও তালিকা দেখুন',
+    },
+    {
+      title: 'মোট বিক্রয়',
+      value: formatTaka(stats.totalSales),
+      icon: DollarSign,
+      color: 'text-green-600 bg-green-50',
+      href: '/admin/reports',
+      desc: 'বিক্রয় রিপোর্ট ও বিশ্লেষণ দেখুন',
+    },
+    {
+      title: 'মোট অর্ডার',
+      value: `${toBn(stats.totalOrders)} টি`,
+      icon: ShoppingBag,
+      color: 'text-blue-600 bg-blue-50',
+      href: '/admin/orders',
+      desc: 'সকল গ্রাহক অর্ডারের তালিকা দেখুন',
+    },
+    {
+      title: 'অপেক্ষমাণ অর্ডার',
+      value: `${toBn(stats.pendingOrders)} টি`,
+      icon: Clock,
+      color: 'text-amber-600 bg-amber-50',
+      href: '/admin/orders',
+      desc: 'অনুমোদন ও প্রসেসিংয়ের অপেক্ষায়',
+    },
+    {
+      title: 'সম্পন্ন অর্ডার',
+      value: `${toBn(stats.completedOrders)} টি`,
+      icon: CheckCircle,
+      color: 'text-emerald-600 bg-emerald-50',
+      href: '/admin/orders',
+      desc: 'ডেলিভারি সম্পন্ন হওয়া অর্ডার',
+    },
+    {
+      title: 'মোট গ্রাহক',
+      value: `${toBn(stats.totalCustomers)} জন`,
+      icon: Users,
+      color: 'text-indigo-600 bg-indigo-50',
+      href: '/admin/customers',
+      desc: 'নিবন্ধিত গ্রাহক অ্যাকাউন্টসমূহ',
+    },
+    {
+      title: 'কম স্টকের পণ্য',
+      value: `${toBn(stats.lowStock?.length || 0)} টি`,
+      icon: AlertTriangle,
+      color: 'text-red-600 bg-red-50',
+      href: '/admin/inventory',
+      desc: 'মজুদ দ্রুত শেষ হয়ে যাওয়া পণ্য',
+    },
   ];
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">ড্যাশবোর্ড ওভারভিউ</h1>
-        <p className="text-sm text-gray-500">আপনার অনলাইন এগ্রিকালচার স্টোরের সাম্প্রতিক পরিসংখ্যান</p>
+        <p className="text-sm text-gray-500">আপনার অনলাইন এগ্রিকালচার স্টোরের সাম্প্রতিক পরিসংখ্যান (কার্ডে ক্লিক করে বিস্তারিত দেখুন)</p>
       </div>
 
-      {/* Metric Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Metric Cards - All Clickable */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {statCards.map((c) => {
           const Icon = c.icon;
           return (
-            <div key={c.title} className="card p-5 flex items-center justify-between">
-              <div>
-                <p className="text-xs font-semibold text-gray-400">{c.title}</p>
-                <p className="mt-1 text-2xl font-bold text-gray-900">{c.value}</p>
+            <Link
+              key={c.title}
+              href={c.href}
+              className="card group p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-md hover:border-krishi-primary/40 hover:-translate-y-0.5"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-semibold text-gray-400 group-hover:text-krishi-primary transition-colors">
+                    {c.title}
+                  </p>
+                  <p className="mt-1 text-2xl font-bold text-gray-900">{c.value}</p>
+                </div>
+                <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${c.color} transition-transform group-hover:scale-105`}>
+                  <Icon className="h-6 w-6" />
+                </div>
               </div>
-              <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${c.color}`}>
-                <Icon className="h-6 w-6" />
+              <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-3 text-xs text-gray-500">
+                <span className="truncate">{c.desc}</span>
+                <ArrowRight className="h-3.5 w-3.5 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-krishi-primary shrink-0 ml-1" />
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

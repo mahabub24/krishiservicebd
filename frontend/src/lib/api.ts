@@ -22,24 +22,40 @@ export async function apiFetch<T>(
   options: RequestInit & { revalidate?: number } = {}
 ): Promise<T> {
   const { revalidate, ...init } = options;
-  const res = await fetch(`${API_URL}${path}`, {
-    ...init,
-    credentials: "include",
-    headers: { "Content-Type": "application/json", ...(init.headers || {}) },
-    ...(typeof window === "undefined" ? { next: { revalidate: revalidate ?? 30 } } : {}),
-  } as RequestInit);
+  
+  // Abort controller with 8-second timeout so pages never hang if backend is cold/offline
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-  let body: ApiResponse<T> | null = null;
   try {
-    body = await res.json();
-  } catch {
-    /* non-JSON response */
-  }
+    const res = await fetch(`${API_URL}${path}`, {
+      ...init,
+      signal: controller.signal,
+      credentials: "include",
+      headers: { "Content-Type": "application/json", ...(init.headers || {}) },
+      ...(typeof window === "undefined" ? { next: { revalidate: revalidate ?? 60 } } : {}),
+    } as RequestInit);
 
-  if (!res.ok || !body?.success) {
-    throw new ApiError(body?.message || "সার্ভারের সাথে যোগাযোগ করা যায়নি", res.status, body?.errors);
+    clearTimeout(timeoutId);
+
+    let body: ApiResponse<T> | null = null;
+    try {
+      body = await res.json();
+    } catch {
+      /* non-JSON response */
+    }
+
+    if (!res.ok || !body?.success) {
+      throw new ApiError(body?.message || "সার্ভারের সাথে যোগাযোগ করা যায়নি", res.status, body?.errors);
+    }
+    return body.data;
+  } catch (err: any) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      throw new ApiError("সার্ভার রেসপন্স দিতে দেরি হচ্ছে", 504);
+    }
+    throw err;
   }
-  return body.data;
 }
 
 export interface ProductImage {

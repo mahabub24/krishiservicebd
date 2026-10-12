@@ -20,15 +20,22 @@ app.use(
   })
 );
 
-// Strict CORS allow-list (no wildcard) — credentials are required for cookie auth
+// CORS allow-list with support for custom domain and vercel previews
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || config.corsOrigins.includes(origin)) return cb(null, true);
-      cb(new Error('CORS: origin not allowed'));
+      if (
+        !origin ||
+        config.corsOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('krishiservicebd.com')
+      ) {
+        return cb(null, true);
+      }
+      cb(null, false);
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   })
 );
 

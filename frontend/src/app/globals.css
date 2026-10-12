@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #1f2937;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-bengali), "Hind Siliguri", "Noto Sans Bengali", sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-krishi-primary px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-krishi-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-krishi-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-krishi-primary px-5 py-2.5 font-semibold text-krishi-primary transition hover:bg-krishi-light focus:outline-none focus-visible:ring-2 focus-visible:ring-krishi-primary disabled:opacity-50;
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-krishi-accent px-5 py-2.5 font-semibold text-krishi-dark shadow-sm transition hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-krishi-accent focus-visible:ring-offset-2 disabled:opacity-50;
+  }
+  .input {
+    @apply w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-krishi-primary focus:outline-none focus:ring-2 focus:ring-krishi-primary/30;
+  }
+  .card {
+    @apply rounded-2xl border border-gray-100 bg-white shadow-sm;
+  }
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+}

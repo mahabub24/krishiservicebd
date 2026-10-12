@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#F0FDF4"/>
+  <circle cx="300" cy="300" r="180" fill="#DCFCE7"/>
+  <path d="M300 180 C230 250 230 360 300 420 C370 360 370 250 300 180 Z" fill="#16803D"/>
+  <path d="M300 230 L300 390" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <path d="M300 290 Q340 310 330 340" stroke="#FFFFFF" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M300 330 Q260 350 270 370" stroke="#FFFFFF" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <text x="300" y="490" font-family="sans-serif" font-size="28" font-weight="bold" fill="#14532D" text-anchor="middle">উন্নত বীজ (বীজ সংগ্রহ)</text>
+</svg>

@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# env files and secrets — never commit
+.env
+.env.*
+!.env.example
+
+# builds
+dist/
+build/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# uploads (user content)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# logs / OS / editor
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# test artifacts
+playwright-report/
+test-results/

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#FEFCE8"/>
+  <circle cx="300" cy="300" r="180" fill="#FEF08A"/>
+  <path d="M260 220 L340 220 L360 410 L240 410 Z" fill="#CA8A04"/>
+  <rect x="275" y="170" width="50" height="50" rx="8" fill="#A16207"/>
+  <path d="M260 300 Q300 330 340 300" stroke="#FFFFFF" stroke-width="8" fill="none"/>
+  <text x="300" y="490" font-family="sans-serif" font-size="28" font-weight="bold" fill="#854D0E" text-anchor="middle">সার ও অনুখাদ্য</text>
+</svg>

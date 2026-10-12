@@ -11,7 +11,7 @@ export function slugify(input: string): string {
 
 export const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-type SlugModel = 'product' | 'category' | 'article' | 'brand';
+type SlugModel = 'product' | 'category' | 'article' | 'brand' | 'landingPage';
 
 /** Returns a unique slug for the model, appending -2, -3… when needed. */
 export async function uniqueSlug(model: SlugModel, base: string, excludeId?: string): Promise<string> {

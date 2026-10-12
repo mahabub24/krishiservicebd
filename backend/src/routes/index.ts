@@ -70,6 +70,7 @@ articles.get('/', content.publicArticles);
 articles.get('/:slug', v(S.slugParams), content.publicArticle);
 api.use('/articles', articles);
 api.post('/newsletter/subscribe', sensitiveLimiter, v(S.newsletterSchema), content.subscribeNewsletter);
+api.get('/landing-pages/:slug', v(S.slugParams), content.publicLandingPage);
 
 // ---------- /admin (staff+; per-module permission) ----------
 const admin = Router();
@@ -121,6 +122,11 @@ admin.put('/settings', P('content'), v(S.settingsSchema), content.adminUpdateSet
 admin.get('/coupons', P('orders'), content.listCoupons);
 admin.post('/coupons', P('orders'), v(S.couponSchema), content.createCoupon);
 admin.delete('/coupons/:id', P('orders'), v(S.idParams), content.deleteCoupon);
+
+admin.get('/landing-pages', P('content'), content.adminLandingPages);
+admin.post('/landing-pages', P('content'), content.createLandingPage);
+admin.patch('/landing-pages/:id', P('content'), v(S.idParams), content.updateLandingPage);
+admin.delete('/landing-pages/:id', P('content'), v(S.idParams), content.deleteLandingPage);
 
 // staff management: super admin only
 admin.get('/staff', authorize('SUPER_ADMIN'), ops.listStaff);

@@ -78,3 +78,49 @@ export const createCoupon = asyncHandler(async (req: Request, res: Response) => 
   ok(res, await prisma.coupon.create({ data: req.body }), 'কুপন তৈরি হয়েছে', 201);
 });
 export const deleteCoupon = asyncHandler(async (req: Request, res: Response) => { await prisma.coupon.delete({ where: { id: req.params.id } }); ok(res, null, 'কুপন মুছে ফেলা হয়েছে'); });
+
+// ---------------- Landing Pages ----------------
+export const publicLandingPage = asyncHandler(async (req: Request, res: Response) => {
+  const page = await prisma.landingPage.findFirst({
+    where: { slug: req.params.slug, isActive: true },
+    include: { product: { include: { images: true } } },
+  });
+  if (!page) throw new AppError('ল্যান্ডিং পেজ পাওয়া যায়নি', 404);
+  ok(res, page);
+});
+
+export const adminLandingPages = asyncHandler(async (_req: Request, res: Response) => {
+  ok(res, await prisma.landingPage.findMany({
+    orderBy: { createdAt: 'desc' },
+    include: { product: { select: { id: true, nameBn: true, price: true, discountPrice: true, images: { take: 1 } } } },
+  }));
+});
+
+export const createLandingPage = asyncHandler(async (req: Request, res: Response) => {
+  const { slug, ...rest } = req.body;
+  const finalSlug = await uniqueSlug('landingPage', slug || rest.title || `offer-${Date.now().toString(36)}`);
+  const page = await prisma.landingPage.create({
+    data: { ...rest, slug: finalSlug },
+    include: { product: true },
+  });
+  await audit(req.user!.userId, 'LANDING_PAGE_CREATE', 'LandingPage', page.id);
+  ok(res, page, 'ল্যান্ডিং পেজ তৈরি হয়েছে', 201);
+});
+
+export const updateLandingPage = asyncHandler(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { slug, ...rest } = req.body;
+  const page = await prisma.landingPage.update({
+    where: { id },
+    data: { ...rest, ...(slug ? { slug } : {}) },
+    include: { product: true },
+  });
+  await audit(req.user!.userId, 'LANDING_PAGE_UPDATE', 'LandingPage', id);
+  ok(res, page, 'ল্যান্ডিং পেজ আপডেট হয়েছে');
+});
+
+export const deleteLandingPage = asyncHandler(async (req: Request, res: Response) => {
+  await prisma.landingPage.delete({ where: { id: req.params.id } });
+  await audit(req.user!.userId, 'LANDING_PAGE_DELETE', 'LandingPage', req.params.id);
+  ok(res, null, 'ল্যান্ডিং পেজ মুছে ফেলা হয়েছে');
+});

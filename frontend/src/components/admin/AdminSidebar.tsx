@@ -13,6 +13,7 @@ import {
   FileText,
   Settings,
   Sprout,
+  Globe,
 } from 'lucide-react';
 
 const adminNav = [
@@ -23,6 +24,7 @@ const adminNav = [
   { href: '/admin/customers', label: 'গ্রাহক তালিকা', icon: Users },
   { href: '/admin/inventory', label: 'ইনভেন্টরি ও স্টক', icon: Warehouse },
   { href: '/admin/reports', label: 'বিক্রয় রিপোর্ট', icon: BarChart3 },
+  { href: '/admin/landing-pages', label: 'ল্যান্ডিং পেজ', icon: Globe },
   { href: '/admin/articles', label: 'কৃষি নিবন্ধ', icon: FileText },
   { href: '/admin/settings', label: 'স্টোর সেটিংস', icon: Settings },
 ];

@@ -140,6 +140,7 @@ model Product {
   cartItems       CartItem[]
   orderItems      OrderItem[]
   stockMovements  InventoryMovement[]
+  landingPages    LandingPage[]
 
   @@index([slug])
   @@index([categoryId])
@@ -334,4 +335,29 @@ model NewsletterSubscriber {
   email     String   @unique
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
+}
+
+model LandingPage {
+  id              String   @id @default(uuid())
+  title           String
+  slug            String   @unique
+  headline        String
+  subHeadline     String?
+  productId       String?
+  product         Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  badgeText       String?  // e.g. "১০০+ প্রিমিয়াম স্ট্রবেরি বীজ মাত্র ৩৫০ টাকায়"
+  deliveryNote    String?  // e.g. "ডেলিভারি চার্জ ফ্রি"
+  features        String[] // Bullet points list
+  galleryImages   String[]
+  reviewImages    String[]
+  guaranteeText   String?
+  hotlinePhone    String?
+  whatsappNumber  String?
+  customPrice     Decimal? @db.Decimal(10, 2)
+  customDiscount  Decimal? @db.Decimal(10, 2)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
 }

@@ -32,11 +32,20 @@ export async function apiFetch<T>(
   const timeoutId = setTimeout(() => controller.abort(), 8000);
 
   try {
+    let authToken = '';
+    if (typeof window !== 'undefined') {
+      authToken = sessionStorage.getItem('auth_token') || localStorage.getItem('auth_token') || '';
+    }
+
     const res = await fetch(`${API_URL}${path}`, {
       ...init,
       signal: controller.signal,
       credentials: "include",
-      headers: { "Content-Type": "application/json", ...(init.headers || {}) },
+      headers: {
+        "Content-Type": "application/json",
+        ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+        ...(init.headers || {}),
+      },
       ...(typeof window === "undefined" ? { next: { revalidate: revalidate ?? 60 } } : {}),
     } as RequestInit);
 

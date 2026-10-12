@@ -42,7 +42,23 @@ export default function AdminDashboardPage() {
   }, [user, loading, router]);
 
   if (loading || fetching) {
-    return <p className="text-gray-500">ড্যাশবোর্ড ডেটা লোড হচ্ছে...</p>;
+    return (
+      <div className="space-y-8 animate-pulse">
+        <div className="space-y-2">
+          <div className="h-7 w-48 bg-gray-200 rounded-lg"></div>
+          <div className="h-4 w-72 bg-gray-200 rounded"></div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+            <div key={i} className="card p-5 h-28 bg-gray-100 rounded-xl"></div>
+          ))}
+        </div>
+        <div className="grid gap-8 lg:grid-cols-2">
+          <div className="card p-6 h-64 bg-gray-100 rounded-xl"></div>
+          <div className="card p-6 h-64 bg-gray-100 rounded-xl"></div>
+        </div>
+      </div>
+    );
   }
 
   if (!stats) {

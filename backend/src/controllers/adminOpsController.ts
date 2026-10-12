@@ -17,7 +17,7 @@ export const dashboard = asyncHandler(async (_req: Request, res: Response) => {
   const counted = { status: { notIn: ['CANCELLED', 'RETURNED'] as ('CANCELLED' | 'RETURNED')[] } };
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
-  const [totalProducts, totalOrders, pendingOrders, completedOrders, totalCustomers, lowStock, recentOrders, sales, last30] = await Promise.all([
+  const [totalProducts, totalOrders, pendingOrders, completedOrders, totalCustomers, lowStock, recentOrders, sales] = await Promise.all([
     prisma.product.count(),
     prisma.order.count(),
     prisma.order.count({ where: { status: 'PENDING' } }),
@@ -26,11 +26,19 @@ export const dashboard = asyncHandler(async (_req: Request, res: Response) => {
     prisma.product.findMany({ where: { stockQuantity: { lte: threshold }, isActive: true }, orderBy: { stockQuantity: 'asc' }, take: 10, select: { id: true, nameBn: true, sku: true, stockQuantity: true } }),
     prisma.order.findMany({ orderBy: { createdAt: 'desc' }, take: 8, select: { id: true, orderNumber: true, customerName: true, totalAmount: true, status: true, paymentStatus: true, createdAt: true } }),
     prisma.order.aggregate({ _sum: { totalAmount: true }, where: counted }),
-    prisma.$queryRaw<{ day: Date; total: Prisma.Decimal; orders: bigint }[]>`
+  ]);
+
+  let salesSummary: { day: Date; total: number; orders: number }[] = [];
+  try {
+    const last30 = await prisma.$queryRaw<{ day: Date; total: Prisma.Decimal; orders: bigint }[]>`
       SELECT date_trunc('day', "createdAt" AT TIME ZONE 'Asia/Dhaka') AS day, SUM("totalAmount") AS total, COUNT(*) AS orders
       FROM "Order" WHERE "createdAt" >= ${since} AND "status" NOT IN ('CANCELLED','RETURNED')
-      GROUP BY 1 ORDER BY 1`,
-  ]);
+      GROUP BY 1 ORDER BY 1 LIMIT 30`;
+    salesSummary = last30.map((r) => ({ day: r.day, total: Number(r.total), orders: Number(r.orders) }));
+  } catch (err) {
+    console.error('salesSummary query error (non-fatal):', err);
+  }
+
   ok(res, {
     totalSales: sales._sum.totalAmount ?? 0,
     totalProducts,
@@ -38,7 +46,7 @@ export const dashboard = asyncHandler(async (_req: Request, res: Response) => {
     lowStockThreshold: threshold,
     lowStock,
     recentOrders,
-    salesSummary: last30.map((r) => ({ day: r.day, total: Number(r.total), orders: Number(r.orders) })),
+    salesSummary,
   });
 });
 

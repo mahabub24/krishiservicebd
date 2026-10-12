@@ -43,25 +43,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [refresh]);
 
   const login = async (phone: string, password: string) => {
-    const data = await apiFetch<{ user: AuthUser }>("/auth/login", {
+    const data = await apiFetch<{ user: AuthUser; token?: string }>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ phone, password }),
     });
+    if (typeof window !== "undefined" && data.token) {
+      sessionStorage.setItem("auth_token", data.token);
+    }
     setUser(data.user);
     return data.user;
   };
 
   const register = async (payload: { name: string; phone: string; email?: string; password: string }) => {
-    const data = await apiFetch<{ user: AuthUser }>("/auth/register", {
+    const data = await apiFetch<{ user: AuthUser; token?: string }>("/auth/register", {
       method: "POST",
       body: JSON.stringify(payload),
     });
+    if (typeof window !== "undefined" && data.token) {
+      sessionStorage.setItem("auth_token", data.token);
+    }
     setUser(data.user);
     return data.user;
   };
 
   const logout = async () => {
     await apiFetch("/auth/logout", { method: "POST" }).catch(() => undefined);
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("auth_token");
+      localStorage.removeItem("auth_token");
+    }
     setUser(null);
   };
 

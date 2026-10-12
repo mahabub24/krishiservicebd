@@ -39,8 +39,10 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
   if (!user || !valid) throw new AppError('মোবাইল নম্বর অথবা পাসওয়ার্ড সঠিক নয়', 401);
   if (!user.isActive) throw new AppError('আপনার অ্যাকাউন্টটি নিষ্ক্রিয় করা হয়েছে। সহায়তার জন্য যোগাযোগ করুন।', 403);
 
-  res.cookie('token', signToken(user), cookieOptions());
+  const token = signToken(user);
+  res.cookie('token', token, cookieOptions(false)); // Session cookie (no persistent maxAge)
   ok(res, {
+    token,
     user: { id: user.id, name: user.name, phone: user.phone, email: user.email, role: user.role, permissions: user.permissions },
   }, 'লগইন সফল হয়েছে');
 });

@@ -5,8 +5,11 @@ declare global {
   var prismaGlobal: PrismaClient | undefined;
 }
 
-export const prisma = global.prismaGlobal || new PrismaClient();
+export const prisma =
+  global.prismaGlobal ||
+  new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['warn', 'error'] : ['error'],
+  });
 
-if (process.env.NODE_ENV !== 'production') {
-  global.prismaGlobal = prisma;
-}
+// Always reuse client instance in serverless environments to avoid reconnect overhead
+global.prismaGlobal = prisma;

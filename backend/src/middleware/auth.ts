@@ -31,7 +31,7 @@ export const signToken = (u: { id: string; role: string; phone: string }) =>
     expiresIn: config.jwtExpiresIn as jwt.SignOptions['expiresIn'],
   });
 
-export const cookieOptions = () => ({
+export const cookieOptions = (rememberMe = false) => ({
   httpOnly: true,
   secure: config.isProd,
   // SameSite=None is required when frontend (krishiservicebd.com) and backend (krishiservicebd-admin.vercel.app)
@@ -39,10 +39,18 @@ export const cookieOptions = () => ({
   sameSite: (config.isProd ? 'none' : 'lax') as 'none' | 'lax',
   domain: config.cookieDomain,
   path: '/',
-  maxAge: 7 * 24 * 60 * 60 * 1000,
+  // If not rememberMe, no maxAge means it acts as a Session Cookie (deleted when browser tab/window closes)
+  ...(rememberMe ? { maxAge: 7 * 24 * 60 * 60 * 1000 } : {}),
 });
 
-const readToken = (req: Request): string | null => req.cookies?.token || null;
+const readToken = (req: Request): string | null => {
+  if (req.cookies?.token) return req.cookies.token;
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    return authHeader.substring(7).trim();
+  }
+  return null;
+};
 
 /** Loads the user from the DB on every request so role changes / disabled accounts take effect immediately. */
 async function resolveUser(token: string): Promise<AuthUser | null> {

@@ -20,6 +20,7 @@ export default function AdminDashboardPage() {
 
   const [stats, setStats] = useState<any>(null);
   const [fetching, setFetching] = useState(true);
+  const [fetchError, setFetchError] = useState<string>('');
 
   useEffect(() => {
     if (!loading && (!user || user.role === 'CUSTOMER')) {
@@ -30,7 +31,10 @@ export default function AdminDashboardPage() {
     if (user && user.role !== 'CUSTOMER') {
       apiFetch<any>('/admin/dashboard')
         .then((res) => setStats(res))
-        .catch((err) => console.error(err))
+        .catch((err) => {
+          console.error('Dashboard fetch failed:', err);
+          setFetchError(err.message || 'ড্যাশবোর্ড অ্যাক্সেস করা সম্ভব হয়নি।');
+        })
         .finally(() => setFetching(false));
     }
   }, [user, loading, router]);
@@ -40,7 +44,26 @@ export default function AdminDashboardPage() {
   }
 
   if (!stats) {
-    return <p className="text-red-500">ড্যাশবোর্ড অ্যাক্সেস করা সম্ভব হয়নি।</p>;
+    return (
+      <div className="rounded-lg bg-red-50 p-4 border border-red-200">
+        <p className="text-red-700 font-medium">
+          {fetchError || 'ড্যাশবোর্ড অ্যাক্সেস করা সম্ভব হয়নি।'}
+        </p>
+        <button
+          onClick={() => {
+            setFetching(true);
+            setFetchError('');
+            apiFetch<any>('/admin/dashboard')
+              .then((res) => setStats(res))
+              .catch((err) => setFetchError(err.message))
+              .finally(() => setFetching(false));
+          }}
+          className="mt-3 btn-primary text-xs !py-1.5"
+        >
+          পুনরায় চেষ্টা করুন
+        </button>
+      </div>
+    );
   }
 
   const statCards = [

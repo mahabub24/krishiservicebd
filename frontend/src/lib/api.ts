@@ -1,4 +1,8 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://krishiservicebd-admin.vercel.app/api/v1"
+    : "http://localhost:5000/api/v1");
 
 export interface ApiResponse<T> {
   success: boolean;

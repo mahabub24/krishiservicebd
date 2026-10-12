@@ -47,7 +47,18 @@ app.use(originCheck);
 
 app.use('/uploads', express.static(path.resolve(config.storage.uploadDir), { maxAge: '7d', index: false, dotfiles: 'deny' }));
 
-app.get('/health', (_req, res) => res.json({ status: 'healthy', service: 'Krishi Service BD API', timestamp: new Date().toISOString() }));
+app.get('/', (_req, res) =>
+  res.json({
+    success: true,
+    message: 'কৃষি সার্ভিস বিডি ব্যাকএন্ড এপিআই চালু আছে',
+    version: '1.0.0',
+    documentation: '/api/v1',
+  })
+);
+
+app.get('/health', (_req, res) =>
+  res.json({ status: 'healthy', service: 'Krishi Service BD API', timestamp: new Date().toISOString() })
+);
 
 app.use('/api/v1', apiRoutes);
 

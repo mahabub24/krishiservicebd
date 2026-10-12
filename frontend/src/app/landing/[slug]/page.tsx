@@ -440,9 +440,8 @@ export default function PublicLandingTemplatePage({
           </div>
         </div>
 
-        {/* 13. Facebook Share Section (আপনার অনুরোধ অনুযায়ী নিচে ফেসবুক শেয়ার) */}
-        <div className="text-center pt-4 space-y-3">
-          <p className="text-xs font-semibold text-gray-500">এই বিশেষ অফারটি বন্ধুদের সাথে শেয়ার করুন:</p>
+        {/* 13. Facebook Share Section */}
+        <div className="text-center pt-4">
           <button
             onClick={shareToFacebook}
             className="inline-flex items-center gap-2 py-2.5 px-6 rounded-full bg-[#1877F2] hover:bg-[#166fe5] text-white font-bold text-sm shadow-md transition-transform hover:scale-105"

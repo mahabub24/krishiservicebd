@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { NewsletterForm } from "@/components/home/NewsletterForm";
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 interface FeaturedData {
   featured: Product[];

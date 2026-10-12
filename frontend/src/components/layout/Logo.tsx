@@ -8,9 +8,9 @@ export function Logo({ light = false, className = "" }: { light?: boolean; class
         <Image
           src="/logo.png"
           alt="কৃষি সার্ভিস বিডি লোগো"
-          width={220}
-          height={60}
-          className="h-11 sm:h-12 md:h-14 w-auto object-contain max-w-[190px] sm:max-w-[220px]"
+          width={280}
+          height={80}
+          className="h-12 sm:h-14 md:h-16 w-auto object-contain max-w-[210px] sm:max-w-[260px]"
           priority
         />
       </div>

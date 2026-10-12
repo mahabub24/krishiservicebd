@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import apiRoutes from './routes';
 import { errorHandler, notFound } from './middleware/error';
-import { globalLimiter, originCheck } from './middleware/security';
+import { globalLimiter, originCheck, isAllowedOrigin } from './middleware/security';
 import { config } from './config';
 
 const app = express();
@@ -24,12 +24,7 @@ app.use(
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (
-        !origin ||
-        config.corsOrigins.includes(origin) ||
-        origin.endsWith('.vercel.app') ||
-        origin.includes('krishiservicebd.com')
-      ) {
+      if (isAllowedOrigin(origin)) {
         return cb(null, true);
       }
       cb(null, false);

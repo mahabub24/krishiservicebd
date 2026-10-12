@@ -74,7 +74,7 @@ export function ProductBuySection({ product }: { product: Product }) {
           className="btn-primary flex-1 !py-3 text-base"
         >
           <Zap className="h-5 w-5" />
-          এখনই অর্ডার করুন
+          অর্ডার করুন
         </button>
       </div>
     </div>

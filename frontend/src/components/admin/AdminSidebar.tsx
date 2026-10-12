@@ -29,14 +29,23 @@ const adminNav = [
   { href: '/admin/settings', label: 'স্টোর সেটিংস', icon: Settings },
 ];
 
+import Image from 'next/image';
+
 export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
     <aside className="hidden w-64 shrink-0 border-r border-gray-200 bg-white lg:block">
-      <div className="flex h-16 items-center gap-2 border-b border-gray-200 px-6">
-        <Sprout className="h-6 w-6 text-krishi-primary" />
-        <span className="font-bold text-gray-900">কৃষি সার্ভিস অ্যাডমিন</span>
+      <div className="flex h-16 items-center px-4 border-b border-gray-200">
+        <Link href="/" className="inline-flex items-center">
+          <Image
+            src="/logo.png"
+            alt="কৃষি সার্ভিস বিডি"
+            width={160}
+            height={40}
+            className="h-8 w-auto object-contain"
+          />
+        </Link>
       </div>
 
       <nav className="p-4 space-y-1">

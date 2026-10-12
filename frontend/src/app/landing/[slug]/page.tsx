@@ -14,6 +14,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function PublicLandingTemplatePage({
   params,
@@ -116,12 +117,18 @@ export default function PublicLandingTemplatePage({
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 font-sans pb-16">
       {/* 1. Header with Logo */}
-      <header className="bg-white py-4 border-b border-gray-100 shadow-sm text-center">
-        <div className="container max-w-2xl mx-auto px-4 flex items-center justify-center gap-2">
-          <div className="h-10 w-10 rounded-xl bg-krishi-primary flex items-center justify-center text-white font-bold text-xl">
-            কৃ
-          </div>
-          <span className="text-xl font-bold text-krishi-dark">কৃষি সার্ভিস বিডি</span>
+      <header className="bg-white py-3 border-b border-gray-100 shadow-sm text-center">
+        <div className="container max-w-2xl mx-auto px-4 flex items-center justify-center">
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              alt="কৃষি সার্ভিস বিডি"
+              width={180}
+              height={44}
+              className="h-10 w-auto object-contain"
+              priority
+            />
+          </Link>
         </div>
       </header>
 

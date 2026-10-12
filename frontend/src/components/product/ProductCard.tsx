@@ -3,11 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Check, ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Check, ShoppingCart, Zap } from "lucide-react";
 import { effectivePrice, formatTaka, hasDiscount, primaryImage, toBn, type Product } from "@/lib/api";
 import { useCart } from "@/features/cart/CartContext";
 
 export function ProductCard({ product }: { product: Product }) {
+  const router = useRouter();
   const { add } = useCart();
   const [added, setAdded] = useState(false);
   const out = product.stockQuantity <= 0;
@@ -22,6 +24,12 @@ export function ProductCard({ product }: { product: Product }) {
       setAdded(true);
       setTimeout(() => setAdded(false), 1500);
     }
+  };
+
+  const onOrderNow = () => {
+    if (out) return;
+    add(product, 1);
+    router.push("/checkout");
   };
 
   return (
@@ -58,15 +66,27 @@ export function ProductCard({ product }: { product: Product }) {
           <span className="text-lg font-bold text-krishi-dark">{formatTaka(effectivePrice(product))}</span>
           {discounted && <span className="text-sm text-gray-400 line-through">{formatTaka(product.price)}</span>}
         </div>
-        <button
-          onClick={onAdd}
-          disabled={out}
-          className="btn-primary mt-3 w-full !py-2 text-sm"
-          aria-label={`${product.nameBn} কার্টে যোগ করুন`}
-        >
-          {added ? <Check className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
-          {out ? "স্টক শেষ" : added ? "যোগ হয়েছে" : "কার্টে যোগ করুন"}
-        </button>
+        <div className="mt-3 space-y-2">
+          <button
+            onClick={onAdd}
+            disabled={out}
+            className="btn-outline w-full !py-2 text-sm flex items-center justify-center gap-1.5"
+            aria-label={`${product.nameBn} কার্টে যোগ করুন`}
+          >
+            {added ? <Check className="h-4 w-4 text-emerald-600" /> : <ShoppingCart className="h-4 w-4" />}
+            {out ? "স্টক শেষ" : added ? "যোগ হয়েছে" : "কার্টে যোগ করুন"}
+          </button>
+
+          <button
+            onClick={onOrderNow}
+            disabled={out}
+            className="btn-primary w-full !py-2 text-sm flex items-center justify-center gap-1.5 shadow-sm"
+            aria-label={`${product.nameBn} অর্ডার করুন`}
+          >
+            <Zap className="h-4 w-4" />
+            {out ? "স্টক শেষ" : "অর্ডার করুন"}
+          </button>
+        </div>
       </div>
     </article>
   );

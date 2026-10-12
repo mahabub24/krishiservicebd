@@ -4,10 +4,11 @@
 export const SITE = {
   nameBn: "কৃষি সার্ভিস বিডি",
   nameEn: "Krishi Service BD",
-  phone: "[ফোন নম্বর যুক্ত করুন]", // PLACEHOLDER
-  email: "[ইমেইল যুক্ত করুন]", // PLACEHOLDER
-  address: "[প্রতিষ্ঠানের ঠিকানা যুক্ত করুন]", // PLACEHOLDER
-  deliveryNote: "সারাদেশে ডেলিভারি — ডেলিভারি চার্জ চেকআউটে দেখুন",
+  phone: "০১৭০৪৭২৪৮১৪",
+  whatsapp: "01704724814",
+  email: "support@krishiservicebd.com",
+  address: "ঢাকা, বাংলাদেশ",
+  deliveryNote: "সারাদেশে ক্যাশ অন ডেলিভারি সুবিধা",
   promo: "নির্বাচিত পণ্যে বিশেষ অফার চলছে",
 };
 

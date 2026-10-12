@@ -34,7 +34,9 @@ export const signToken = (u: { id: string; role: string; phone: string }) =>
 export const cookieOptions = () => ({
   httpOnly: true,
   secure: config.isProd,
-  sameSite: 'lax' as const,
+  // SameSite=None is required when frontend (krishiservicebd.com) and backend (krishiservicebd-admin.vercel.app)
+  // are on different domains in production.
+  sameSite: (config.isProd ? 'none' : 'lax') as 'none' | 'lax',
   domain: config.cookieDomain,
   path: '/',
   maxAge: 7 * 24 * 60 * 60 * 1000,

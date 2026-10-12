@@ -56,7 +56,9 @@ export default function CheckoutPage() {
       const payload = {
         customerName: form.customerName,
         customerPhone: form.customerPhone,
-        district: form.district,
+        district: form.district || 'ঢাকা',
+        upazila: 'সদর',
+        unionArea: 'সদর',
         fullAddress: form.fullAddress,
         paymentMethod: 'CASH_ON_DELIVERY',
         items: lines.map((l) => ({ productId: l.productId, quantity: l.quantity })),
